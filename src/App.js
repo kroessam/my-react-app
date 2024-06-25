@@ -13,12 +13,24 @@ function Square({ value, onSquareClick }) {
 // "export": lets other files access this function
 // "default": tells other files this is the main function
 export default function Board() {
+  const [xIsNext, setXIsNext] = useState(true);
   const [squares, setSquares] = useState(Array(9).fill(null));
 
   function handleClick(i) {
+    if (squares[i]) {
+      return; // do not place a tile if square is occupied
+    }
+
     const newSquares = squares.slice(); // create a copy of squares array
-    newSquares[i] = "X"; // set first index to be an X
+
+    if (xIsNext) {
+      newSquares[i] = "X";
+    } else {
+      newSquares[i] = "O"
+    }
+    
     setSquares(newSquares); // reassign to squares variable
+    setXIsNext(!xIsNext);
   }
 
   // must return all JSX within one parent tag (<></> is a "fragment")
