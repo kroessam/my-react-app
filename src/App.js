@@ -9,19 +9,14 @@ function Square({ value, onSquareClick }) {
   );
 }
 
-/* keywords */
-// "export": lets other files access this function
-// "default": tells other files this is the main function
-export default function Board() {
-  const [xIsNext, setXIsNext] = useState(true);
-  const [squares, setSquares] = useState(Array(9).fill(null));
+function Board({ xIsNext, squares, onPlay }) {
 
   function handleClick(i) {
     if (squares[i] || calculateWinner(squares)) {
-      return; // do not place a tile if square is occupied
+      return; // do not place a tile if square is occupied (or game over)
     }
 
-    const newSquares = squares.slice(); // create a copy of squares array
+    const newSquares = squares.slice(); // create a copy of squares array WITHOUT altering the original
 
     if (xIsNext) {
       newSquares[i] = "X";
@@ -29,8 +24,7 @@ export default function Board() {
       newSquares[i] = "O";
     }
 
-    setSquares(newSquares); // reassign to squares variable
-    setXIsNext(!xIsNext);
+    onPlay(newSquares);
   }
 
   const winner = calculateWinner(squares);
@@ -61,6 +55,30 @@ export default function Board() {
         <Square value={squares[8]} onSquareClick={() => handleClick(8)} />
       </div>
     </>
+  );
+}
+
+/* keywords */
+// "export": lets other files access this function
+// "default": tells other files this is the main function
+export default function Game() {
+  const [xIsNext, setXIsNext] = useState(true);
+  const [history, setHistory] = useState([Array(9).fill(null)]);
+  const currentSquares = history[history.length - 1];
+
+  function handlePlay(newSquares) {
+    //TODO
+  }
+
+  return (
+    <div className="game">
+      <div className="game-board">
+        <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
+      </div>
+      <div className="game-info">
+        <ol>{/*TODO*/}</ol>
+      </div>
+    </div>
   );
 }
 
