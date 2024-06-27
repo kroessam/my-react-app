@@ -10,7 +10,6 @@ function Square({ value, onSquareClick }) {
 }
 
 function Board({ xIsNext, squares, onPlay }) {
-
   function handleClick(i) {
     if (squares[i] || calculateWinner(squares)) {
       return; // do not place a tile if square is occupied (or game over)
@@ -67,7 +66,8 @@ export default function Game() {
   const currentSquares = history[history.length - 1];
 
   function handlePlay(newSquares) {
-    //TODO
+    setHistory([...history, newSquares]); // use "spread" syntax to append newSquares and update history
+    setXIsNext(!xIsNext);
   }
 
   return (
