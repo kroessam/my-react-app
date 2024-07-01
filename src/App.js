@@ -9,28 +9,22 @@ function Square({ value, onSquareClick }) {
   );
 }
 
-/* keywords */
-// "export": lets other files access this function
-// "default": tells other files this is the main function
-export default function Board() {
-  const [xIsNext, setXIsNext] = useState(true);
-  const [squares, setSquares] = useState(Array(9).fill(null));
-
+function Board({ xIsNext, squares, onPlay }) {
+  // call handlePlay with the new array of squares
   function handleClick(i) {
     if (squares[i] || calculateWinner(squares)) {
-      return; // do not place a tile if square is occupied
+      return; // do not place a tile if square is occupied (or game over)
     }
 
-    const newSquares = squares.slice(); // create a copy of squares array
+    const nextSquares = squares.slice(); // create a copy of squares array WITHOUT altering the original
 
     if (xIsNext) {
-      newSquares[i] = "X";
+      nextSquares[i] = "X";
     } else {
-      newSquares[i] = "O";
+      nextSquares[i] = "O";
     }
 
-    setSquares(newSquares); // reassign to squares variable
-    setXIsNext(!xIsNext);
+    onPlay(nextSquares);
   }
 
   const winner = calculateWinner(squares);
@@ -61,6 +55,54 @@ export default function Board() {
         <Square value={squares[8]} onSquareClick={() => handleClick(8)} />
       </div>
     </>
+  );
+}
+
+/* keywords */
+// "export": lets other files access this function
+// "default": tells other files this is the main function
+export default function Game() {
+  const [history, setHistory] = useState([Array(9).fill(null)]);
+  const [currentMove, setCurrentMove] = useState(0);
+  const xIsNext = currentMove % 2 === 0;
+  const currentSquares = history[currentMove];
+
+  // add new squares array to history (and remove undone moves if "time travelling")
+  function handlePlay(nextSquares) {
+    const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
+    setHistory(nextHistory);
+    setCurrentMove(nextHistory.length - 1);
+  }
+
+  // skip back to a move saved to history
+  function jumpTo(nextMove) {
+    setCurrentMove(nextMove);
+  }
+
+  const moves = history.map((squares, move) => {
+    let description;  // description = link button label
+    if (move > 0) {
+      description = "Go to move #" + move;
+    } else {
+      description = "Go to game start";
+    }
+
+    return (
+      <li key={move}>
+        <button onClick={() => jumpTo(move)}>{description}</button>
+      </li>
+    );
+  });
+
+  return (
+    <div className="game">
+      <div className="game-board">
+        <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
+      </div>
+      <div className="game-info">
+        <ol>{moves}</ol>
+      </div>
+    </div>
   );
 }
 
