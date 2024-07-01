@@ -10,20 +10,21 @@ function Square({ value, onSquareClick }) {
 }
 
 function Board({ xIsNext, squares, onPlay }) {
+  // call handlePlay with the new array of squares
   function handleClick(i) {
     if (squares[i] || calculateWinner(squares)) {
       return; // do not place a tile if square is occupied (or game over)
     }
 
-    const newSquares = squares.slice(); // create a copy of squares array WITHOUT altering the original
+    const nextSquares = squares.slice(); // create a copy of squares array WITHOUT altering the original
 
     if (xIsNext) {
-      newSquares[i] = "X";
+      nextSquares[i] = "X";
     } else {
-      newSquares[i] = "O";
+      nextSquares[i] = "O";
     }
 
-    onPlay(newSquares);
+    onPlay(nextSquares);
   }
 
   const winner = calculateWinner(squares);
@@ -61,17 +62,21 @@ function Board({ xIsNext, squares, onPlay }) {
 // "export": lets other files access this function
 // "default": tells other files this is the main function
 export default function Game() {
-  const [xIsNext, setXIsNext] = useState(true);
   const [history, setHistory] = useState([Array(9).fill(null)]);
-  const currentSquares = history[history.length - 1];
+  const [currentMove, setCurrentMove] = useState(0);
+  const xIsNext = currentMove % 2 === 0;
+  const currentSquares = history[currentMove];
 
-  function handlePlay(newSquares) {
-    setHistory([...history, newSquares]); // use "spread" syntax to append newSquares and update history
-    setXIsNext(!xIsNext);
+  // add new squares array to history (and remove undone moves if "time travelling")
+  function handlePlay(nextSquares) {
+    const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
+    setHistory(nextHistory);
+    setCurrentMove(nextHistory.length - 1);
   }
 
-  function jumpTo() {
-    //TODO
+  // skip back to a move saved to history
+  function jumpTo(nextMove) {
+    setCurrentMove(nextMove);
   }
 
   const moves = history.map((squares, move) => {
