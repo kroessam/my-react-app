@@ -3,7 +3,7 @@ function Message() {
   // JSX: JavaScript XML
   const name = "Sam";
   if (name) {
-    return <h1>Hello {name}</h1>;
+    return <h1 className="display-1">Hello {name}</h1>;
   } else {
     return <h1>Hello World</h1>;
   }
