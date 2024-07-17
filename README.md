@@ -1,4 +1,4 @@
-# Welcome to My React App
+# Welcome to my React Practice!
 
 I will be using this repository to refine my React skills using the official documentation and multiple tutorials. 
 
