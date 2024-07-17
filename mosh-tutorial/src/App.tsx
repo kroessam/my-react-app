@@ -1,13 +1,14 @@
+import Alert from "./components/Alert";
 import Button from "./components/Button";
+import { useState } from "react";
 
 function App() {
-  const handleClick = () => {
-    console.log("Button clicked!");
-  };
+  const [isAlertShowing, setIsAlertShowing] = useState(false);
 
   return (
     <div>
-      <Button color="primary" onClick={handleClick}>My Button</Button>
+      {isAlertShowing && <Alert onClose={() =>setIsAlertShowing(false)}>My Alert</Alert>}
+      <Button color="primary" onClick={() => setIsAlertShowing(true)}>My Button</Button>
     </div>
   );
 }
