@@ -1,8 +1,10 @@
+import Title from "./components/Title";
+
 function App() {
   return (
-    <>
-      <h1>My React App Using TypeScript</h1>
-    </>
+    <div className="container mt-5">
+      <Title text="My React App Using TypeScript"/>
+    </div>
   );
 }
 
