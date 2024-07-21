@@ -8,7 +8,10 @@ function App() {
       <Navbar />
       <main className="container mt-5">
         <Title text="My React App Using TypeScript" />
-        <Counter amt={-5}/>
+        <div className="d-flex justify-content-around">
+          <Counter header="1st Number" amt={5} />
+          <Counter header="2nd Number" amt={-9} />
+        </div>
       </main>
     </>
   );
