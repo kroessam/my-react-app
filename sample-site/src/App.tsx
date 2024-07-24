@@ -1,6 +1,6 @@
 import Title from "./components/Title";
 import Navbar from "./components/Navbar";
-import Combiner from "./components/Combiner";
+import NumberGame from "./components/NumberGame";
 
 function App() {
   return (
@@ -8,7 +8,7 @@ function App() {
       <Navbar />
       <main className="container mt-5">
         <Title text="My React App Using TypeScript" />
-        <Combiner />
+        <NumberGame />
       </main>
     </>
   );
