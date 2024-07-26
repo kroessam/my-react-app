@@ -15,8 +15,8 @@ const Combiner = () => {
   };
 
   return (
-    <div>
-      <h2 className="display-5 text-center mb-4">Number Game</h2>
+    <div className="border border-primary rounded-4 p-4">
+      <h2 className="display-5 text-center mb-4 text-primary">Number Game</h2>
       <button
         className="btn btn-primary d-block mx-auto mb-3"
         onClick={() => {
