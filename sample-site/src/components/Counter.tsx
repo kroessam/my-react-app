@@ -3,7 +3,7 @@ import { useState } from "react";
 interface Props {
   header?: string;
   incrementAmt?: number;
-  onIncrement: (incrementAmt: number) => void;
+  onIncrement: (prevCount: number, incrementAmt: number) => void;
 }
 
 const Counter = ({
@@ -22,7 +22,7 @@ const Counter = ({
         className="btn btn-outline-dark"
         onClick={() => {
           setCount(count + incrementAmt);
-          onIncrement(count);
+          onIncrement(count, incrementAmt);
         }}
       >
         {btnText}
