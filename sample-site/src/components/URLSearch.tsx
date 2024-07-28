@@ -17,7 +17,10 @@ const URLSearch = () => {
         />
       </div>
       <p>
-        Going to: <span className="text-success">/{input}</span>
+        Going to:{" "}
+        <span className="text-success">
+          {input === "" ? "Home Page" : "/" + input}
+        </span>
       </p>
       <Link className="btn btn-primary" to={input}>
         Go
